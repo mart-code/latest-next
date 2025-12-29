@@ -4,8 +4,8 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
 experimental: {
   turbopackFileSystemCacheForDev: true,
+},
 
-}
 };
 
 export default nextConfig;
