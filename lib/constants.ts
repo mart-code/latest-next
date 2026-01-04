@@ -1,80 +1,68 @@
-export type Event = {
-  title: string;
+export type EventItem = {
   image: string;
+  title: string;
   slug: string;
   location: string;
-  date: string;
-  time: string;
-  description?: string;
-  link?: string;
+  date: string; // e.g., "2025-11-07"
+  time: string; // e.g., "09:00 AM"
 };
 
-export const events: Event[] = [
+export const events: EventItem[] = [
   {
-    title: "Next.js Conf",
     image: "/images/event1.png",
-    slug: "nextjs-conf-2026",
-    location: "Amsterdam, Netherlands (hybrid)",
-    date: "2026-03-18",
-    time: "09:00",
-    description:
-      "The official Next.js conference with talks, workshops, and networking for Next.js developers.",
-    link: "https://nextjs.org/conf",
+    title: "React Summit US 2025",
+    slug: "react-summit-us-2025",
+    location: "San Francisco, CA, USA",
+    date: "2025-11-07",
+    time: "09:00 AM",
   },
   {
-    title: "React Summit",
     image: "/images/event2.png",
-    slug: "react-summit-2026",
-    location: "Remote & Amsterdam",
-    date: "2026-04-10",
-    time: "10:00",
-    description:
-      "A conference focused on the React ecosystem: patterns, performance, and community-led talks.",
-    link: "https://reactsummit.com",
+    title: "KubeCon + CloudNativeCon Europe 2026",
+    slug: "kubecon-cloudnativecon-eu-2026",
+    location: "Vienna, Austria",
+    date: "2026-03-18",
+    time: "10:00 AM",
   },
   {
-    title: "JSConf Global",
     image: "/images/event3.png",
-    slug: "jsconf-global-2026",
-    location: "Berlin, Germany",
-    date: "2026-05-21",
-    time: "09:30",
-    description:
-      "Independent JavaScript conference featuring a broad range of JS-related topics and workshops.",
-    link: "https://jsconf.com",
+    title: "AWS re:Invent 2025",
+    slug: "aws-reinvent-2025",
+    location: "Las Vegas, NV, USA",
+    date: "2025-12-01",
+    time: "08:30 AM",
   },
   {
-    title: "Google I/O (Community Track)",
     image: "/images/event4.png",
-    slug: "google-io-2026",
-    location: "Mountain View, CA & Online",
-    date: "2026-05-15",
-    time: "08:00",
-    description:
-      "Google's developer conference with announcements, deep dives, and hands-on sessions.",
-    link: "https://events.google.com/io/",
+    title: "Next.js Conf 2025",
+    slug: "nextjs-conf-2025",
+    location: "Los Angeles, CA, USA (Hybrid)",
+    date: "2025-11-12",
+    time: "09:30 AM",
   },
   {
-    title: "Hack the North",
     image: "/images/event5.png",
-    slug: "hack-the-north-2026",
-    location: "Waterloo, Canada",
-    date: "2026-09-12",
-    time: "18:00",
-    description:
-      "One of North America's largest student-run hackathons — 36 hours of building and learning.",
-    link: "https://hackthenorth.com",
+    title: "Google Cloud Next 2026",
+    slug: "google-cloud-next-2026",
+    location: "San Jose, CA, USA",
+    date: "2026-04-07",
+    time: "09:00 AM",
   },
   {
-    title: "Local Dev Meetup: Serverless & Edge",
     image: "/images/event6.png",
-    slug: "local-dev-meetup-serverless-edge",
-    location: "San Francisco, CA",
-    date: "2026-02-05",
-    time: "18:30",
-    description:
-      "An evening meetup covering serverless architectures, edge runtimes and demos from local companies.",
-    link: "https://www.meetup.com/",
+    title: "ETHGlobal Hackathon: Paris 2026",
+    slug: "ethglobal-paris-2026",
+    location: "Paris, France",
+    date: "2026-07-10",
+    time: "10:00 AM",
+  },
+  {
+    image: "/images/events-full.png",
+    title: "Open Source Summit North America 2026",
+    slug: "oss-na-2026",
+    location: "Vancouver, Canada",
+    date: "2026-06-22",
+    time: "09:00 AM",
   },
 ];
 
