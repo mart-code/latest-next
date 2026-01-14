@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -7,43 +7,82 @@ import { useRouter } from "next/navigation";
 
 const CreateEventPage = () => {
   const router = useRouter();
-  const [title, setTitle] = useState("");
-  const [slug, setSlug] = useState("");
-  const [description, setDescription] = useState("");
-  const [overview, setOverview] = useState("");
-  const [time, setTime] = useState("");
-  const [date, setDate] = useState("");
-  const [location, setLocation] = useState("");
-  const [tags, setTags] = useState([""]); // Assuming multiple tags are allowed
-  const [agenda, setAgenda] = useState("");
-  const [image, setImage] = useState<File | null>(null);
+  const [formData, setFormData] = useState({
+    title: "",
+    slug: "",
+    description: "",
+    overview: "",
+    time: "",
+    date: "",
+    location: "",
+    tags: [],
+    agenda: "",
+    image: null,
+  });
+
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("slug", slug);
-      formData.append("description", description);
-      formData.append("overview", overview);
-      formData.append("time", time);
-      formData.append("date", date);
-      formData.append("location", location);
-      formData.append("tags", JSON.stringify(tags));
+      // Basic client-side validation
+      if (
+        !formData.title ||
+        !formData.slug ||
+        !formData.description ||
+        !formData.overview ||
+        !formData.time ||
+        !formData.date ||
+        !formData.location ||
+        !formData.agenda ||
+        !formData.image
+      ) {
+        throw new Error("Please fill in all required fields");
+      }
 
-      const response = await axios.post("/api/events", formData, {
+      const response = await fetch("/api/events/", {
+        method: "POST",
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify(formData),
       });
 
-      if (response.status === 201) {
-        router.push("/");
-      } else {
-        console.error("Event creation failed");
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.error || `Server responded with status ${response.status}`
+        );
       }
+
+      console.log("Form submitted successfully:", data);
+      router.push("/events");
+
+      // Reset form on success
+      setFormData({
+        title: "",
+        slug: "",
+        description: "",
+        overview: "",
+        time: "",
+        date: "",
+        location: "",
+        tags: [],
+        agenda: "",
+        image: null,
+      });
     } catch (error) {
-      console.error("Error creating event:", error);
+      console.log(error);
     }
   };
 
@@ -59,73 +98,81 @@ const CreateEventPage = () => {
         <form className="flex flex-col w-1/2 gap-2 p-4" onSubmit={handleSubmit}>
           <input
             type="text"
+            name="title"
             placeholder="Title of event"
             className="mb-2 p-2 border"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={formData.title}
+            onChange={(e) => handleChange(e)}
           />
           <input
             type="text"
+            name="slug"
             placeholder="Slug for event"
-            value={slug}
-            onChange={(e) => setSlug(e.target.value)}
+            value={formData.slug}
+            onChange={(e) => handleChange(e)}
             className="mb-2 p-2 border"
           />
           <textarea
             placeholder="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            name="description"
+            value={formData.description}
+            onChange={(e) => handleChange(e)}
             className="mb-2 p-2 border"
           />
           <input
             type="text"
             placeholder="Overview"
             className="mb-2 p-2 border"
-            value={overview}
-            onChange={(e) => setOverview(e.target.value)}
+            value={formData.overview}
+            onChange={(e) => handleChange(e)}
           />
           <input
             type="text"
             placeholder="Time"
             className="mb-2 p-2 border"
-            value={time}
-            onChange={(e) => setTime(e.target.value)}
+            value={formData.time}
+            onChange={(e) => handleChange(e)}
           />
           <input
             type="text"
             placeholder="Date"
             className="mb-2 p-2 border"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
+            value={formData.date}
+            onChange={(e) => handleChange(e)}
           />
           <input
             type="text"
             placeholder="Location"
             className="mb-2 p-2 border"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
+            value={formData.location}
+            onChange={(e) => handleChange(e)}
           />
           <input
             type="text"
             className="mb-2 p-2 border"
             placeholder="Tags (comma-separated)"
-            value={tags.join(",")}
-            onChange={(e) => setTags(e.target.value.split(","))}
+            value={formData.tags.join(",")}
+            onChange={(e) => handleChange(e)}
           />
           <input
             type="text"
             className="mb-2 p-2 border"
             placeholder="Agenda"
-            value={agenda}
-            onChange={(e) => setAgenda(e.target.value)}
+            value={formData.agenda}
+            onChange={(e) => handleChange(e)}
           />
           <input
             type="file"
             className="mb-2 p-2 border"
             placeholder="Upload Image"
-            onChange={(e) => setImage(e.target.files?.[0] || null)}
+            onChange={(e) => handleChange(e)}
           />
-          <button type="submit" className="bg-white text-green-950 font-semibold py-2 cursor-pointer hover:opacity-80">Submit</button>
+          <button
+            type="submit"
+            className="bg-white text-green-950 font-semibold py-2 cursor-pointer hover:opacity-80"
+          >
+            Submit
+          </button>
         </form>
       </section>
     </main>
